@@ -50,6 +50,16 @@ let counter = 1; // Contador para generar los números de URL corta
 // Ruta para crear una URL corta
 app.post('/api/shorturl', function (req, res) {
   const originalUrl = req.body.url;
+
+  // Expresión regular para verificar si la URL tiene el formato correcto
+  const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
+
+  if (!urlRegex.test(originalUrl)) {
+    // Si la URL no tiene el formato correcto, devuelve un error
+    return res.status(400).json({ error: 'invalid url' });
+  }
+
+  // Si la URL es válida, procede a crear la URL corta
   const shortUrl = counter++; // Generar el número de URL corta
   urlShortener[shortUrl] = originalUrl;
   res.json({
@@ -65,7 +75,7 @@ app.get('/api/shorturl/:short', function (req, res) {
   if (originalUrl) {
     res.redirect(originalUrl);
   } else {
-    res.status(404).json({ error: 'URL corta no encontrada' });
+    res.status(404).json({ error: 'invalid url' });
   }
 });
 
