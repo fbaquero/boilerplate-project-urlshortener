@@ -56,7 +56,7 @@ app.post('/api/shorturl', function (req, res) {
 
   if (!urlRegex.test(originalUrl)) {
     // Si la URL no tiene el formato correcto, devuelve un error
-    return res.status(400).json({ error: 'invalid url' });
+    return res.json({ error: 'invalid url' });
   }
 
   // Si la URL es válida, procede a crear la URL corta
@@ -75,7 +75,7 @@ app.get('/api/shorturl/:short', function (req, res) {
   if (originalUrl) {
     res.redirect(originalUrl);
   } else {
-    res.status(404).json({ error: 'invalid url' });
+    res.json({ error: 'invalid url' });
   }
 });
 
